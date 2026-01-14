@@ -8,9 +8,10 @@ import VideoPlayer from "../components/VideoPlayer";
 const EpisodeDetails = () => {
   const { episodeId } = useParams();
   const navigate = useNavigate();
-
+  const [mediaUrl, setMediaUrl] = useState(null);
   const [epizoda, setEpizoda] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -19,6 +20,13 @@ const EpisodeDetails = () => {
         const epRes = await api.get(`/emisije/${episodeId}`);
         const epData = epRes.data.data;
         setEpizoda(epData);
+        const fileRes = await api.get(epData.file, {
+          responseType: 'blob' 
+        });
+
+    
+        const blobUrl = URL.createObjectURL(fileRes.data);
+        setMediaUrl(blobUrl);
       } catch (err) {
         console.error("Greška pri učitavanju:", err);
       } finally {
@@ -27,6 +35,9 @@ const EpisodeDetails = () => {
     };
 
     fetchDetails();
+    return () => {
+      if (mediaUrl) URL.revokeObjectURL(mediaUrl);
+    };
   }, [episodeId]);
 
   if (loading)
@@ -75,9 +86,9 @@ const EpisodeDetails = () => {
 
             <div className="bg-black rounded-3xl overflow-hidden shadow-2xl">
               {isVideo ? (
-                <VideoPlayer videoUrl={epizoda.file} title={epizoda.naslov} />
+                <VideoPlayer videoUrl={mediaUrl} title={epizoda.naslov} />
               ) : (
-                <AudioPlayer audioUrl={epizoda.file} title={epizoda.naslov} />
+                <AudioPlayer audioUrl={mediaUrl} title={epizoda.naslov} />
               )}
             </div>
           </div>
