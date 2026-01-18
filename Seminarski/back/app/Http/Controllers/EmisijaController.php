@@ -53,8 +53,10 @@ class EmisijaController extends Controller
     private function uploadFajl($file, $naziv,$podcast)
     {
         $originalExtension = $file->getClientOriginalExtension(); 
-        $filename = $naziv . '.' . $originalExtension;
         $sanitizedNaziv = preg_replace('/[^a-zA-Z0-9_-]/', '_', $podcast->naslov);
+        $naziv = preg_replace('/[^a-zA-Z0-9_-]/', '_', $naziv);
+        $filename = $naziv . '.' . $originalExtension;
+        
 
         $podcastPath = 'app/' . $sanitizedNaziv;
         if (!Storage::exists($podcastPath)) {
