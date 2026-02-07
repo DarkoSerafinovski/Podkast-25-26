@@ -56,11 +56,11 @@ jobs:
         with:
           context: ./Seminarski/back
           push: true
-          tags: ghcr.io/darkoserafinovski/podkast-backend:latest
+          tags: ghcr.io/banbo01/podkast-backend:latest
 
       - name: Build & push frontend image
         uses: docker/build-push-action@v5
         with:
           context: ./Seminarski/front
           push: true
-          tags: ghcr.io/darkoserafinovski/podkast-frontend:latest
+          tags: ghcr.io/banbo01/podkast-frontend:latest
