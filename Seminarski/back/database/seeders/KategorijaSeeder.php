@@ -9,6 +9,8 @@ class KategorijaSeeder extends Seeder
 {
     public function run()
     {
-        Kategorija::factory()->count(5)->create();
+        if(Kategorija::count() == 0) {
+            Kategorija::factory()->count(5)->create();
+        }
     }
 }

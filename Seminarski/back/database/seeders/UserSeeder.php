@@ -9,9 +9,8 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        User::factory()->count(10)->create();
-
-        
-      
+        if(User::count() == 0) {
+         User::factory()->count(10)->create();
+        }
     }
 }

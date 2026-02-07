@@ -10,6 +10,7 @@ class PodcastSeeder extends Seeder
 {
     public function run()
     {
+        if(Podcast::count() == 0) {
         Podcast::factory()->count(10)->create();
         $users = User::all();
 
@@ -35,4 +36,6 @@ $podcasts->each(function ($podcast) use ($autori, $gledaoci) {
     }
 });
     }
+}
+
 }

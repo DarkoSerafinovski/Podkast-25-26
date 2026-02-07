@@ -9,6 +9,8 @@ class EmisijaSeeder extends Seeder
 {
     public function run()
     {
-        Emisija::factory()->count(30)->create();
+        if(Emisija::count() == 0) {
+            Emisija::factory()->count(30)->create();
+        }
     }
 }
