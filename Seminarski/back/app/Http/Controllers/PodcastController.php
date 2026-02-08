@@ -75,16 +75,13 @@ class PodcastController extends Controller
             $podcast = Podcast::findOrFail($id);
             $user = Auth::user();
     
-            if ($podcast->logo_putanja) {
-                $putanjaBanera = public_path($podcast->logo_putanja);
-                $direktorijum = dirname($putanjaBanera);
-                if (File::exists($direktorijum)) {
-                    File::deleteDirectory($direktorijum);
-                }
-            }
-    
-          
-            $podcast->delete();
+           if ($podcast->logo_putanja) {
+            $relativePutanja = str_replace(env('AWS_URL') . '/', '', $podcast->logo_putanja);
+            $folderPutanja = dirname($relativePutanja);
+            Storage::disk('s3')->deleteDirectory($folderPutanja);
+        }
+
+        $podcast->delete();
     
             return response()->json(['message' => 'Podcast i svi povezani resursi su uspešno obrisani.'], 200);
         } catch (\Exception $e) {
@@ -152,26 +149,14 @@ class PodcastController extends Controller
     }
 }
 
-
 private function uploadLogo($file, $naslov)
 {
-  
     $sanitizedNaslov = preg_replace('/[^a-zA-Z0-9_-]/', '_', $naslov);
     $extension = $file->getClientOriginalExtension();
-    $filename = $sanitizedNaslov . '.' . $extension;
-
-    
-    $path = 'app/' . $sanitizedNaslov;
-
-   
-    if (!Storage::exists($path)) {
-        Storage::makeDirectory($path);
-    }
-
-    $pathFile = $file->storeAs($path, $filename,"public");
-
-    
-    return Storage::url($pathFile);
+    $filename = 'logo_' . time() . '.' . $extension; 
+    $path = 'podcasts/' . $sanitizedNaslov;
+    $pathFile = $file->storeAs($path, $filename, "s3");
+    return Storage::disk('s3')->url($pathFile);
 }
 
 
@@ -195,13 +180,17 @@ public function update(Request $request, $podcastId)
         $podcast->kategorija_id = $request->kategorija_id;
 
         
-        if ($request->hasFile('logo_putanja')) {
-            if (File::exists($podcast->logo_putanja)) {
-                File::delete($podcast->logo_putanja);
+       if ($request->hasFile('logo_putanja')) {
+             if ($podcast->logo_putanja) {
+                 $staraPutanja = str_replace(env('AWS_URL') . '/', '', $podcast->logo_putanja);
+        
+        if (Storage::disk('s3')->exists($staraPutanja)) {
+            Storage::disk('s3')->delete($staraPutanja);
             }
-           $podcast->logo_putanja =  $this->uploadLogo($request->file('logo_putanja'), $request->naslov);
-
-        }
+    }
+    // Upload novog logoa
+    $podcast->logo_putanja = $this->uploadLogo($request->file('logo_putanja'), $request->naslov);
+}
 
        
         $podcast->save();

@@ -50,58 +50,33 @@ class EmisijaController extends Controller
         return response()->json(['message' => 'Epizoda i fajl su uspešno sačuvani', 'epizoda' => $emisija], 201);
     }
     
-    private function uploadFajl($file, $naziv,$podcast)
-    {
-        $originalExtension = $file->getClientOriginalExtension(); 
-        $sanitizedNaziv = preg_replace('/[^a-zA-Z0-9_-]/', '_', $podcast->naslov);
-        $naziv = preg_replace('/[^a-zA-Z0-9_-]/', '_', $naziv);
-        $filename = $naziv . '.' . $originalExtension;
-        
-
-        $podcastPath = 'app/' . $sanitizedNaziv;
-        if (!Storage::exists($podcastPath)) {
-             Storage::makeDirectory($podcastPath);
-            }
-
-            $sanitizedNaziv = preg_replace('/[^a-zA-Z0-9_-]/', '_', $naziv);
-            $path = $podcastPath . '/'. $sanitizedNaziv;
-            if(!Storage::exists($path))
-            {
-                Storage::makeDirectory($path);
-            }
-        
-        $pathFile = $file->storeAs($path, $filename,"public");
-
-        return Storage::url($pathFile); 
-    }
+    private function uploadFajl($file, $naziv, $podcast)
+{
+    $originalExtension = $file->getClientOriginalExtension(); 
+    $sanitizedPodcastNaslov = preg_replace('/[^a-zA-Z0-9_-]/', '_', $podcast->naslov);
+    $sanitizedFajlNaziv = preg_replace('/[^a-zA-Z0-9_-]/', '_', $naziv);
+    $filename = $sanitizedFajlNaziv . '.' . $originalExtension;
+    $path = $sanitizedPodcastNaslov . '/' . $sanitizedFajlNaziv;
+    $pathFile = $file->storeAs($path, $filename, "s3");
+    return Storage::disk('s3')->url($pathFile); 
+}
     
 
- public function vratiFile($id)
-    {
-        try {
-           
-            $emisija = Emisija::findOrFail($id);
-            $relativePath = $emisija->file;
-            $absolutePath = public_path($relativePath); 
-
-    
-            if (!File::exists($absolutePath)) {
-                return response()->json(['error' => 'Fajl ne postoji'], 404);
-            }
-    
-           
-            return response()->stream(function () use ($absolutePath) {
-                readfile($absolutePath);
-            }, 200, [
-                'Content-Type' => $emisija->tip,
-                'Accept-Ranges' => 'bytes',
-                'Content-Length' => filesize($absolutePath),
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Greška prilikom učitavanja file: ' . $e->getMessage());
-            return response()->json(['error' => 'Došlo je do greške prilikom učitavanja file.'], 500);
+public function vratiFile($id)
+{
+    try {
+        $emisija = Emisija::findOrFail($id);
+        if (filter_var($emisija->file, FILTER_VALIDATE_URL)) {
+             return redirect($emisija->file);
         }
+
+        return response()->json(['error' => 'Fajl ne postoji ili nije validan URL'], 404);
+
+    } catch (\Exception $e) {
+        Log::error('Greška prilikom učitavanja file: ' . $e->getMessage());
+        return response()->json(['error' => 'Došlo je do greške.'], 500);
     }
+}
 
 
 }
