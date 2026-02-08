@@ -29,6 +29,7 @@ class EmisijaController extends Controller
 
     public function store(Request $request)
     {
+         try {
         $request->validate([
             'naslov' => 'required|string',
             'podcast_id' => 'required|exists:podkasti,id',
@@ -48,6 +49,10 @@ class EmisijaController extends Controller
     
         
         return response()->json(['message' => 'Epizoda i fajl su uspešno sačuvani', 'epizoda' => $emisija], 201);
+         } catch (\Exception $e) {
+            Log::error('Greška prilikom čuvanja emisije: ' . $e->getMessage());
+            return response()->json(['message' => 'Došlo je do greške prilikom čuvanja emisije.', 'error' => $e->getMessage()], 500);
+         }
     }
     
     private function uploadFajl($file, $naziv, $podcast)
