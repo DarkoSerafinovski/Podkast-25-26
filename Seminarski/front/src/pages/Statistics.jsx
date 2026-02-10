@@ -5,7 +5,7 @@ import StatsCard from "../components/StatsCard";
 import api from "../api";
 
 const Statistics = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
