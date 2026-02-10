@@ -7,6 +7,7 @@ use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategorijaController;
 use App\Http\Controllers\EmisijaController;
+use App\Http\Controllers\StatistikaController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -34,5 +35,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('emisije/{id}',[EmisijaController::class,'show']);
     Route::post('emisije',[EmisijaController::class,'store']);
     Route::get('/emisije/file/{id}', [EmisijaController::class, 'vratiFile'])->name('emisija.file');
+    Route::get('statistika',[StatistikaController::class,'konacnaStatistika']);
 
 });
