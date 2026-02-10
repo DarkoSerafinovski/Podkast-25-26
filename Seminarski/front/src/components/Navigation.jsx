@@ -14,6 +14,7 @@ export default function Navigation() {
     linksToDisplay.push(
       { name: "Korisnici", path: "/users" },
       { name: "Kategorije", path: "/categories" },
+      { name: "Statistike", path: "/statistics" },
     );
   }
 

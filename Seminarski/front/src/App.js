@@ -9,6 +9,7 @@ import CategoryManagement from "./pages/CategoryManagement";
 import PodcastForm from "./pages/PodcastForm";
 import AddEpisodeForm from "./pages/AddEpisodeForm";
 import Spotify from "./components/spotify/Spotify";
+import Statistics from "./pages/Statistics";
 
 function App() {
   return (
@@ -31,8 +32,8 @@ function App() {
           />
           <Route path="/users" element={<UserManagement />} />
           <Route path="/categories" element={<CategoryManagement />} />
-          <Route path="/spotify" element={<Spotify/>}/>
-
+          <Route path="/spotify" element={<Spotify />} />
+          <Route path="/statistics" element={<Statistics />} />
         </Routes>
       </div>
     </Router>
