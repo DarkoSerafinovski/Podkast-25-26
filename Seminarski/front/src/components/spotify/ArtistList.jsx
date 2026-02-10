@@ -14,7 +14,6 @@ const ArtistList = ({ artists, onSelect }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
       {artists.map((item) => {
-        // Provera da li je u pitanju umetnik (krug) ili podkast (kvadrat)
         const isArtist = item.type === "artist";
 
         return (
@@ -23,7 +22,6 @@ const ArtistList = ({ artists, onSelect }) => {
             onClick={() => onSelect(item)}
             className="group bg-[#181818] p-4 rounded-2xl hover:bg-[#282828] transition-all duration-300 cursor-pointer shadow-lg border border-transparent hover:border-indigo-500/30"
           >
-            {/* Kontejner za sliku */}
             <div className="relative mb-4 overflow-hidden shadow-2xl">
               <img
                 src={
@@ -36,7 +34,6 @@ const ArtistList = ({ artists, onSelect }) => {
                 }`}
               />
 
-              {/* Play Button Overlay */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                 <div className="bg-indigo-600 p-3 rounded-full shadow-xl translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white">
@@ -46,7 +43,6 @@ const ArtistList = ({ artists, onSelect }) => {
               </div>
             </div>
 
-            {/* Tekstualni deo */}
             <div className="text-center md:text-left">
               <h3 className="font-black text-sm text-white truncate uppercase tracking-tight mb-1">
                 {item.name}

@@ -10,6 +10,7 @@ import {
   getShowEpisodes,
 } from "./SpotifyService";
 import Navigation from "../Navigation";
+import Card from "./Card";
 
 const Spotify = () => {
   const [items, setItems] = useState([]);
@@ -62,6 +63,18 @@ const Spotify = () => {
     }
   };
 
+  const BackButton = ({ onClick, label }) => (
+    <button
+      className="group mb-8 flex items-center text-indigo-400 hover:text-white transition-all font-black uppercase text-xs tracking-widest"
+      onClick={onClick}
+    >
+      <span className="mr-2 text-xl group-hover:-translate-x-1 transition-transform">
+        ←
+      </span>
+      {label}
+    </button>
+  );
+
   return (
     <div className="min-h-screen bg-[#121212]">
       <Navigation />
@@ -92,48 +105,24 @@ const Spotify = () => {
           !selectedAlbum &&
           selectedArtist.type === "artist" && (
             <div className="animate-fadeIn">
-              <button
-                className="group mb-8 flex items-center text-gray-400 hover:text-white transition-all font-black uppercase text-xs"
+              <BackButton
                 onClick={() => setSelectedArtist(null)}
-              >
-                <span className="mr-2 text-xl group-hover:-translate-x-1 transition-transform">
-                  ←
-                </span>
-                Nazad na rezultate
-              </button>
-              <h2 className="text-4xl font-black mb-8">
-                Albumi:{" "}
+                label="Nazad na rezultate"
+              />
+
+              <h2 className="text-4xl mb-8">
+                Albumi:
                 <span className="text-indigo-500">{selectedArtist.name}</span>
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6">
                 {albums.map((album) => (
-                  <div
+                  <Card
                     key={album.id}
-                    className="bg-[#181818] p-4 rounded-2xl hover:bg-[#282828] transition-all duration-300 group cursor-pointer shadow-xl border border-transparent hover:border-gray-700"
+                    title={album.name}
+                    subtitle={new Date(album.release_date).getFullYear()}
+                    image={album.images[0]?.url}
                     onClick={() => setSelectedAlbum(album)}
-                  >
-                    <div className="relative mb-4">
-                      <img
-                        src={
-                          album.images[0]?.url ||
-                          "https://via.placeholder.com/300"
-                        }
-                        alt={album.name}
-                        className="w-full aspect-square object-cover rounded-xl shadow-2xl"
-                      />
-                      <div className="absolute bottom-2 right-2 bg-indigo-600 p-3 rounded-full opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                        <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </div>
-                    </div>
-                    <h3 className="font-bold truncate text-sm mb-1 uppercase tracking-tight">
-                      {album.name}
-                    </h3>
-                    <p className="text-gray-500 text-xs font-black italic">
-                      {new Date(album.release_date).getFullYear()}
-                    </p>
-                  </div>
+                  />
                 ))}
               </div>
             </div>
@@ -142,20 +131,14 @@ const Spotify = () => {
         {selectedArtist &&
           (selectedAlbum || selectedArtist.type === "show") && (
             <div className="animate-fadeIn">
-              <button
-                className="group mb-8 flex items-center text-gray-400 hover:text-white transition-all font-black uppercase text-xs"
+              <BackButton
                 onClick={() =>
                   selectedArtist.type === "show"
                     ? setSelectedArtist(null)
                     : setSelectedAlbum(null)
                 }
-              >
-                <span className="mr-2 text-xl group-hover:-translate-x-1 transition-transform">
-                  ←
-                </span>{" "}
-                Nazad
-              </button>
-
+                label="Nazad"
+              />
               <div className="flex flex-col md:flex-row gap-10 items-end mb-12 bg-gradient-to-t from-[#181818] to-transparent p-8 rounded-3xl border border-white/5">
                 <img
                   src={

@@ -1,5 +1,5 @@
 import React from "react";
-import Pagination from "../Pagination"; // Proveri putanju
+import Pagination from "../Pagination";
 
 const ArtistDetails = ({
   artist,
@@ -12,20 +12,17 @@ const ArtistDetails = ({
   const totalResults = songs?.total || 0;
   const totalPages = Math.ceil(totalResults / songsPerPage);
 
-  // Pripremamo meta objekat za tvoju Pagination komponentu
   const paginationMeta = {
     last_page: totalPages,
   };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    // Skrolujemo na vrh liste pesama pri promeni stranice
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 100, behavior: "smooth" });
   };
 
   return (
     <div className="w-full animate-fadeIn">
-      {/* Lista pesama/epizoda */}
       <div className="space-y-4">
         {items.length > 0 ? (
           items.map((item, index) => (
@@ -49,7 +46,6 @@ const ArtistDetails = ({
                 </div>
               </div>
 
-              {/* Spotify Embed Player */}
               <div className="rounded-xl overflow-hidden shadow-2xl">
                 <iframe
                   src={`https://open.spotify.com/embed/${artist.type === "artist" ? "track" : "episode"}/${item.id}?utm_source=generator&theme=0`}
