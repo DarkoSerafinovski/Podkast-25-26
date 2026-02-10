@@ -35,7 +35,7 @@ const AllPodcasts = () => {
       searchQuery: "",
       idAutora: null,
     },
-    user
+    user,
   );
 
   useEffect(() => {
@@ -87,6 +87,7 @@ const AllPodcasts = () => {
           setFilters={setFilters}
           categories={allCategories}
           authors={authors}
+          setSearchTerm={setSearchTerm}
         />
 
         <main className="flex-1 p-8">
@@ -140,15 +141,16 @@ const AllPodcasts = () => {
                 Pokusajte da promenite filtere ili pretrazite nesto drugo.
               </p>
               <button
-                onClick={() =>
+                onClick={() => {
                   setFilters({
                     view: "all",
                     category: "all",
                     minEpisodes: 0,
                     searchQuery: "",
                     idAutora: null,
-                  })
-                }
+                  });
+                  setSearchTerm("");
+                }}
                 className="px-6 py-3 bg-indigo-50 text-indigo-600 rounded-2xl font-bold hover:bg-indigo-100 transition-colors"
               >
                 Ponisti sve filtere

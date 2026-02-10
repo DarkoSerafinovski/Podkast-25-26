@@ -7,6 +7,7 @@ const Sidebar = ({
   setFilters,
   categories,
   authors = [],
+  setSearchTerm,
 }) => {
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -34,7 +35,7 @@ const Sidebar = ({
                 const isChecked = e.target.checked;
                 handleFilterChange(
                   "view",
-                  e.target.checked ? "personal" : "all"
+                  e.target.checked ? "personal" : "all",
                 );
                 if (isChecked && userRole === "autor") {
                   handleFilterChange("idAutora", null);
@@ -145,14 +146,15 @@ const Sidebar = ({
         </div>
 
         <button
-          onClick={() =>
+          onClick={() => {
             setFilters({
               view: "all",
               category: "all",
               minEpisodes: 0,
               searchQuery: "",
-            })
-          }
+            });
+            setSearchTerm("");
+          }}
           className="w-full py-3 text-xs font-bold text-gray-400 hover:text-red-500 border border-dashed border-gray-200 rounded-xl transition-colors"
         >
           Poništi filtere
