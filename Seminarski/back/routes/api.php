@@ -35,6 +35,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('emisije/{id}',[EmisijaController::class,'show']);
     Route::post('emisije',[EmisijaController::class,'store']);
     Route::get('/emisije/file/{id}', [EmisijaController::class, 'vratiFile'])->name('emisija.file');
-    Route::get('/statistika',[StatistikaController::class,'konacnaStatistika']);
+    Route::get('statistika',[StatistikaController::class,'konacnaStatistika']);
 
 });
