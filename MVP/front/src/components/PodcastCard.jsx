@@ -15,6 +15,8 @@ const PodcastCard = ({ podcast, onToggleFavorite, user }) => {
   const autorIme =
     autori && autori.length > 0 ? autori[0].korisnicko_ime : "Nepoznat autor";
 
+  const fallbackImage = "/default-image.jpg";
+
   const handleFavoriteClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -27,6 +29,10 @@ const PodcastCard = ({ podcast, onToggleFavorite, user }) => {
         <img
           src={logo_putanja}
           alt={naslov}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = fallbackImage;
+          }}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
 

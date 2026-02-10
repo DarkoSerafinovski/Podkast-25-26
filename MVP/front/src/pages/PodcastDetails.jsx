@@ -17,6 +17,8 @@ const PodcastDetails = () => {
     username: localStorage.getItem("username"),
   };
 
+  const fallbackImage = "/default-image.jpg";
+
   useEffect(() => {
     const fetchPodcast = async () => {
       try {
@@ -32,7 +34,7 @@ const PodcastDetails = () => {
   }, [id]);
 
   const isOwner = podcast?.autori?.some(
-    (a) => a.korisnicko_ime === user.username
+    (a) => a.korisnicko_ime === user.username,
   );
   const canDelete = user.role === "administrator" || isOwner;
 
@@ -79,6 +81,10 @@ const PodcastDetails = () => {
         <img
           src={podcast.logo_putanja}
           alt=""
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = fallbackImage;
+          }}
           className="absolute inset-0 w-full h-full object-cover opacity-20 blur-2xl scale-110"
         />
 
@@ -94,6 +100,10 @@ const PodcastDetails = () => {
             <img
               src={podcast.logo_putanja}
               alt={podcast.naslov}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = fallbackImage;
+              }}
               className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-3xl shadow-2xl border-4 border-white/10"
             />
 
@@ -144,7 +154,9 @@ const PodcastDetails = () => {
             opis={podcast.kratak_sadrzaj}
             statLabel="Ukupno emisija"
             statValue={`${podcast.emisije?.length || 0} ${
-              podcast.emisije?.length === 1 ? "Epizoda" : "Epizoda"
+              podcast.emisije?.length < 2 || podcast.emisije?.length > 4
+                ? "Epizoda"
+                : "Epizode"
             }`}
           />
 

@@ -1,7 +1,6 @@
 import React from "react";
 
 const EpisodeItem = ({ epizoda, index, onClick }) => {
-  console.log(epizoda);
   return (
     <div
       onClick={onClick}

@@ -6,6 +6,7 @@ const FormInput = ({
   disbaled = false,
   checked,
   onChange,
+
   placeholder,
   required = false,
   className = "",
