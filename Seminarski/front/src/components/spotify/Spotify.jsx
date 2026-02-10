@@ -11,6 +11,7 @@ import {
 } from "./SpotifyService";
 import Navigation from "../Navigation";
 import Card from "./Card";
+import SpotifyHero from "./SpotifyHero";
 
 const Spotify = () => {
   const [items, setItems] = useState([]);
@@ -84,6 +85,8 @@ const Spotify = () => {
           <SearchBar onSearch={handleSearch} />
         </div>
 
+        {/* JOS NIJE PRETRAZENO */}
+
         {!selectedArtist && items.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-gray-500">
             <p className="text-xl font-bold uppercase tracking-widest">
@@ -91,6 +94,8 @@ const Spotify = () => {
             </p>
           </div>
         )}
+
+        {/* TEK PRETRAZENO */}
 
         {!selectedArtist && items.length > 0 && (
           <div className="animate-fadeIn">
@@ -101,6 +106,8 @@ const Spotify = () => {
           </div>
         )}
 
+        {/* IZABRAN MUZICAR */}
+
         {selectedArtist &&
           !selectedAlbum &&
           selectedArtist.type === "artist" && (
@@ -110,9 +117,11 @@ const Spotify = () => {
                 label="Nazad na rezultate"
               />
 
-              <h2 className="text-4xl mb-8">
-                Albumi:
-                <span className="text-indigo-500">{selectedArtist.name}</span>
+              <h2 className="text-4xl font-bold mb-8 text-white">
+                Albumi:{" "}
+                <span className="text-indigo-500 font-bold">
+                  {selectedArtist.name}
+                </span>
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6">
                 {albums.map((album) => (
@@ -128,6 +137,7 @@ const Spotify = () => {
             </div>
           )}
 
+        {/* SELEKTOVAN MUZICAR I NJEGOV ALBUM ILI SELEKTOVAN PODKAST KREATOR */}
         {selectedArtist &&
           (selectedAlbum || selectedArtist.type === "show") && (
             <div className="animate-fadeIn">
@@ -139,36 +149,21 @@ const Spotify = () => {
                 }
                 label="Nazad"
               />
-              <div className="flex flex-col md:flex-row gap-10 items-end mb-12 bg-gradient-to-t from-[#181818] to-transparent p-8 rounded-3xl border border-white/5">
-                <img
-                  src={
-                    selectedArtist.type === "artist"
-                      ? selectedAlbum?.images[0]?.url
-                      : selectedArtist.images[0]?.url
-                  }
-                  alt=""
-                  className="w-52 h-52 md:w-72 md:h-72 shadow-[0_20px_50px_rgba(0,0,0,0.5)] object-cover rounded-2xl"
-                />
-                <div className="flex-1">
-                  <p className="uppercase text-xs font-black tracking-[0.2em] mb-3 text-indigo-500">
-                    {selectedArtist.type === "artist" ? "Album" : "Podcast"}
-                  </p>
-                  <h1 className="text-5xl md:text-8xl font-black mb-6 tracking-tighter leading-none">
-                    {selectedArtist.type === "artist"
-                      ? selectedAlbum?.name
-                      : selectedArtist.name}
-                  </h1>
-                  <div className="flex items-center gap-3 text-sm font-black uppercase text-white">
-                    {selectedArtist.name}
-                    {selectedArtist.type === "artist" && selectedAlbum && (
-                      <span className="text-gray-600">
-                        • {selectedAlbum.total_tracks} pesama
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
+              <SpotifyHero
+                image={
+                  selectedArtist.type === "artist"
+                    ? selectedAlbum?.images[0]?.url
+                    : selectedArtist.images[0]?.url
+                }
+                type={selectedArtist.type}
+                title={
+                  selectedArtist.type === "artist"
+                    ? selectedAlbum?.name
+                    : selectedArtist.name
+                }
+                author={selectedArtist.name}
+                totalTracks={selectedAlbum?.total_tracks}
+              />
               <div className="bg-[#181818]/50 rounded-3xl p-6 border border-white/5 backdrop-blur-xl">
                 <ArtistDetails
                   artist={selectedArtist}

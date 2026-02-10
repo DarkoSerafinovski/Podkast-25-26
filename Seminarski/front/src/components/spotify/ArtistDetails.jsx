@@ -69,7 +69,6 @@ const ArtistDetails = ({
         )}
       </div>
 
-      {/* Tvoja univerzalna Pagination komponenta */}
       <div className="py-10 border-t border-white/5 mt-8">
         <Pagination
           meta={paginationMeta}

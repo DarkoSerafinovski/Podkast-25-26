@@ -14,7 +14,6 @@ const Card = ({ title, subtitle, image, onClick, isCircle = false }) => {
             isCircle ? "rounded-full" : "rounded-xl"
           }`}
         />
-        {/* Play Button Overlay */}
         <div className="absolute bottom-2 right-2 bg-indigo-600 p-3 rounded-full opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 shadow-lg">
           <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white">
             <path d="M8 5v14l11-7z" />
