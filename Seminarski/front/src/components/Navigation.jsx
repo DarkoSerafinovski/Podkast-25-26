@@ -23,7 +23,7 @@ export default function Navigation() {
   }
 
   if (userRole === "gledalac") {
-    linksToDisplay.push({ name: "Spotify", path: "spotify" });
+    linksToDisplay.push({ name: "Spotify", path: "/spotify" });
   }
 
   const handleLogoutAction = async () => {
