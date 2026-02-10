@@ -16,6 +16,9 @@ class StatistikaController extends Controller
 
     public function konacnaStatistika(): JsonResponse
     {
+        try{
+
+       
         $data = [
             'podkasti_po_kategorijama' => $this->statistikaService->getPodkastiPoKategorijama(),
             'tipovi_emisija_stats' => $this->statistikaService->getTipoviEmisijaStats(),
@@ -27,7 +30,11 @@ class StatistikaController extends Controller
             'procenat_ucestvenosti_autora' => $this->statistikaService->getProcentualnoUcesceAutora(),
            
         ];
-
+        
         return response()->json($data);
+         }catch (\Exception $e) {
+            return response()->json(['error' => 'Došlo je do greške prilikom generisanja statistike.',
+            'message' => $e->getMessage()], 500);
+        }
     }
 }
