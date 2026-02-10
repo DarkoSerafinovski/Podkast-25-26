@@ -21,8 +21,8 @@ const FormSelect = ({
           {placeholder}
         </option>
         {options.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.naziv}
+          <option key={option.id} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

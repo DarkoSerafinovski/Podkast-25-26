@@ -21,7 +21,6 @@ const Login = () => {
         return setError("Pogresni podaci.");
       }
 
-      console.log(res.data);
       localStorage.setItem("token", res.data.access_token);
       localStorage.setItem("role", res.data.role);
       localStorage.setItem("username", res.data.data.username);
@@ -61,6 +60,7 @@ const Login = () => {
               type="email"
               value={email}
               placeholder="Email..."
+              required
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -71,6 +71,7 @@ const Login = () => {
               type="password"
               value={password}
               placeholder="••••••••"
+              required
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>

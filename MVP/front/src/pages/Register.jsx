@@ -36,7 +36,6 @@ const Register = () => {
     setLoading(true);
     setError("");
 
-    console.log(formData);
     try {
       const res = await api.post("/register", {
         username: formData.username,
@@ -45,10 +44,9 @@ const Register = () => {
         role: formData.role,
       });
 
-      console.log(res);
       if (res.data.success === false) {
         return setError(
-          "Greška pri registraciji: " + JSON.stringify(res.data.data)
+          "Greška pri registraciji: " + JSON.stringify(res.data.data),
         );
       }
 
@@ -91,6 +89,7 @@ const Register = () => {
             type="text"
             value={formData.username}
             placeholder="Username..."
+            required
             onChange={handleChange}
           />
 
@@ -100,6 +99,7 @@ const Register = () => {
             type="email"
             value={formData.email}
             placeholder="Email..."
+            required
             onChange={handleChange}
           />
 
@@ -109,6 +109,7 @@ const Register = () => {
             type="password"
             value={formData.password}
             placeholder="••••••••"
+            required
             onChange={handleChange}
           />
 
@@ -118,6 +119,7 @@ const Register = () => {
             type="password"
             value={formData.confirmedPassword}
             placeholder="••••••••"
+            required
             onChange={handleChange}
           />
 

@@ -13,7 +13,7 @@ export default function Navigation() {
   if (userRole === "administrator") {
     linksToDisplay.push(
       { name: "Korisnici", path: "/users" },
-      { name: "Kategorije", path: "/categories" }
+      { name: "Kategorije", path: "/categories" },
     );
   }
 
@@ -39,7 +39,7 @@ export default function Navigation() {
     "text-gray-600 hover:text-indigo-600 transition-colors font-medium";
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <nav className="bg-white backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-18 items-center py-4">
           <div className="flex-shrink-0 flex items-center">
