@@ -36,6 +36,8 @@ services:
       - "3000:80"
     environment:
       - WDS_SOCKET_PORT=0
+      - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
+      - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
 
 volumes:
   db_data:
